@@ -51,6 +51,11 @@ class CountryController extends Controller
         ]);
     }
 
+    public function actionUrl()
+    {
+        return $this->render('url');
+    }
+
     /**
      * Lists all Country models.
      * @return mixed
