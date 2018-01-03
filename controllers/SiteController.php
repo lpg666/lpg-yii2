@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\CodeImgGenerate;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -75,6 +76,13 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
+        $validateCode = new CodeImgGenerate();
+        $codeImg = $validateCode->inline();
+
+        $file = fopen(Yii::$app->getRuntimePath() . "/cache/pic/1.png","w");
+        fwrite($file, $codeImg);
+        fclose($file);
+
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
@@ -83,6 +91,7 @@ class SiteController extends Controller
         $model->password = '';
         return $this->render('login', [
             'model' => $model,
+            'codeImg' => $codeImg
         ]);
     }
 
